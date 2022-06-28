@@ -1,0 +1,103 @@
+{% extends "block/layout.html" %}
+{% block right %}
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <h1 class="page-header">预测成材率</h1>
+        <!-- 提交部分 -->
+        {% if flag == 1 %}
+            <div class="alert alert-danger" role="alert">数据添加失败！</div>
+        {% endif %}
+        {% if flag == 0 %}
+            <div class="alert alert-success" role="alert">数据添加成功！</div>
+        {% endif %}
+        <div class="row" style="margin-top: 55px; margin-left: 100px">
+            <form method="post" action="/rolled_steel_data_pre"
+                  enctype="multipart/form-data">
+                <div class="col-lg-9">
+                    <div class="form-group row">
+                        <label for="inputUsername" class="col-sm-3 col-form-label">成材组距</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" name="X31">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inputPassword" class="col-sm-3 col-form-label">检验结果值允许的偏差范围</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" name="X32">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inputPassword" class="col-sm-3 col-form-label">检验项目：非金属夹杂物</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" name="X33">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inputPassword" class="col-sm-3 col-form-label">检验项目：显微组织</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" name="X34">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inputPassword" class="col-sm-3 col-form-label">检验项目：力学性能</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" name="X35">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inputPassword" class="col-sm-3 col-form-label">检验项目：低倍组织</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" name="X36">
+                        </div>
+                    </div>
+                    <div style="width: 550px; margin: 25px; text-align: right">
+                        <button type="submit" class="btn btn-primary mb-2" style="margin-right: 40px">添加</button>
+                        <button type="reset" class="btn btn-danger mb-2" style="margin-right: 30px">取消</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+{% block aside_js %}
+    <script>
+        (function () {
+            var oList = document.querySelectorAll('.list h2'),
+                oHide = document.querySelectorAll('.hide1'),
+                oIcon = document.querySelectorAll('.list i'),
+                lastIndex = 0;
+            for(var i=0;i<oList.length;i++){
+                oList[i].index = i;//自定义属性
+                oList[i].isClick = false;
+                oList[i].initHeight = oHide[i].clientHeight;
+                oHide[i].style.height = '0';
+
+                lastIndex = 0;
+                oHide[0].style.height = '160px';
+                oIcon[0].className = 'on';
+                oList[0].className = 'on';
+                oList[0].isClick = true;
+
+                oList[i].onclick = function () {
+                    if(this.isClick){
+                        oHide[this.index].style.height = '0';
+                        oIcon[this.index].className = '';
+                        oList[this.index].className = '';
+                        oList[this.index].isClick = false;
+                    }
+                    else{
+                        oHide[lastIndex].style.height = '0';
+                        oIcon[lastIndex].className = '';
+                        oList[lastIndex].className = '';
+                        oHide[this.index].style.height = '160px';
+                        oIcon[this.index].className = 'on';
+                        oList[this.index].className = 'on';
+                        oList[lastIndex].isClick = false;
+                        oList[this.index].isClick = true;
+                        lastIndex = this.index;
+                    }
+                }
+            }
+        })();
+    </script>
+{% endblock %}

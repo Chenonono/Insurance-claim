@@ -1,0 +1,59 @@
+/* 预测界面的样式 */
+.right-main .row h4 {
+    margin-left: 60px;
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+.right-main .row h4 a {
+    text-decoration: none;
+    color: lightslategray;
+}
+
+.right-main form .row input {
+    margin-left: 200px;
+    margin-top: 3px;
+}
+
+.right-main form .row button {
+    margin-right: 20px;
+}
+
+.right-main .card {
+    width: 80%;
+    margin: 20px auto;
+    text-align: center;
+}
+
+.right-main .card .table .thead {
+    background-color: #f5f5ef;
+}
+
+.right-main .card .table thead th {
+    text-align: center;
+}
+
+.right-main .card .table tbody tr {
+    text-align: center;
+}
+
+.right-main .card .table tbody tr .table-index {
+    text-align: center;
+}
+
+.right-main .sub-pre .btn-cancel {
+    float: right;
+    margin-top: 10px;
+    margin-right: 200px;
+}
+
+.right-main .sub-pre .btn-cancel a{
+    color: white;
+    text-decoration: none;
+}
+
+.right-main .sub-pre .btn-pre {
+    float: right;
+    margin-top: 10px;
+    margin-right: 50px;
+}

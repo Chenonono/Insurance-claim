@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include "block/head.html" %}
+    {% block head%}
+    {% endblock %}
+    <link href="../static/css/mycss/login-style.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12 page-login">
+                <div class="loginForm">
+                    <h2>系统登录</h2>
+                    <form method="post" action="/login" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">工号</label>
+                            <input type="text" class="form-control" name="usernum" placeholder="请输入工号">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">密码</label>
+                            <input type="password" class="form-control" name="password" placeholder="请输入密码">
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                使用系统前，请注意
+                                <a href="#">&nbsp;系统信息安全协议&nbsp;</a>与<a href="#">&nbsp;系统数据隐私协议</a>
+                            </label>
+                        </div>
+                        <div class="button-area">
+                            <button type="submit" class="btn btn-primary mb-2">登 录</button>
+                            <button type="reset" class="btn btn-danger mb-2">取 消</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-12">
+                {% include "block/bottom.html" %}
+                {% block bottom%}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>

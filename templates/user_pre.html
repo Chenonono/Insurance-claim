@@ -1,0 +1,129 @@
+{% extends "block/layout.html" %}
+
+{% block head %}
+    <link href="../static/css/mycss/pre-style.css" rel="stylesheet">
+{% endblock %}
+
+{% block right %}
+    <div class="right-main">
+        <h1 class="page-header">客户预测分类</h1>
+        <div class="row">
+            <div class="col-md-12">
+                <h4>请从本地导入需要预测的Excel表格文件（导入文件前需了解<a href="#">系统的提交文件规范</a>）</h4>
+            </div>
+            <div class="col-md-12">
+                <form method="post" action="/to_excel" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <input type="file" name="pre_file" accept=".xlsx" value="请上传Excel文件"/>
+                        </div>
+                        <div class="col-lg-6">
+                            <button type="submit" class="btn btn-primary mb-2">预 览</button>
+                            <button type="reset" class="btn btn-danger mb-2">取 消</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-12">
+                <div class="card">
+                    <table class="table">
+                        <thead>
+                        <tr class="thead">
+                            <th scope="col">编号</th>
+                            <th scope="col">性别</th>
+                            <th scope="col">疾病</th>
+                            <th scope="col">理赔金额</th>
+                            <th scope="col">理赔时间</th>
+                            <th scope="col">截止日期</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for data in datas %}
+                            <tr>
+                                <th scope="row" class="table-index">{{ data[0] }}</th>
+                                <td>{{ data[1] }}</td>
+                                <td>{{ data[2] }}</td>
+                                <td>{{ data[3] }}</td>
+                                <td>{{ data[4] }}</td>
+                                <td>{{ data[5] }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-12 sub-pre">
+                <button type="button" class="btn btn-danger btn-cancel"><a href="/user_pre">取消操作</a></button>
+                <form method="post" action="/data_pre">
+                    <input type="hidden" name="feature" value={{ feature }}>
+                    <button type="submit" class="btn btn-primary mb-2 btn-pre">预测数据</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block aside_js %}
+    <script>
+        (function () {
+            var oList = document.querySelectorAll('.list h2'),
+                oHide = document.querySelectorAll('.hide1'),
+                oIcon = document.querySelectorAll('.list i'),
+                lastIndex = 0;
+            for (var i = 0; i < oList.length; i++) {
+                oList[i].index = i;//自定义属性
+                oList[i].isClick = false;
+                oList[i].initHeight = oHide[i].clientHeight;
+                oHide[i].style.height = '0';
+
+                lastIndex = 0;
+                oHide[0].style.height = '160px';
+                oIcon[0].className = 'on';
+                oList[0].className = 'on';
+                oList[0].isClick = true;
+
+                oList[i].onclick = function () {
+                    if (this.isClick) {
+                        oHide[this.index].style.height = '0';
+                        oIcon[this.index].className = '';
+                        oList[this.index].className = '';
+                        oList[this.index].isClick = false;
+                    } else {
+                        oHide[lastIndex].style.height = '0';
+                        oIcon[lastIndex].className = '';
+                        oList[lastIndex].className = '';
+                        oHide[this.index].style.height = '160px';
+                        oIcon[this.index].className = 'on';
+                        oList[this.index].className = 'on';
+                        oList[lastIndex].isClick = false;
+                        oList[this.index].isClick = true;
+                        lastIndex = this.index;
+                    }
+                }
+            }
+        })();
+    </script>
+{% endblock %}
+
+{% block pre_js %}
+    <script>
+        function pre_data() {
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                url: "/data_pre",
+                //提交的数据
+                data: $("#features"),
+                success: function (result) {
+                    //打印服务端返回的数据(调试用)
+                    if (result.toString() == '200') {
+                        alert("提交成功");
+                    };
+                },
+                error: function () {
+                    alert("提交失败");
+                }
+            });
+        };
+    </script>
+{% endblock %}

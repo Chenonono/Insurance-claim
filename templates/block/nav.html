@@ -1,0 +1,42 @@
+{% block nav %}
+    <nav class="navbar navbar-inverse navbar-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                        data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">系统首页</a>
+            </div>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
+                    <li><a href="#">Link</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><span class="glyphicon glyphicon-user user-span" aria-hidden="true"></span></li>
+                    <li class="dropdown">
+                        {% if not session['user'] %}
+                            <a href="/user_login">未登录</a>
+                        {% endif %}
+                        {% if session['user'] %}
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                               aria-expanded="false">员工{{ session['user'] }} <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">个人信息</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="#">权限申请</a></li>
+                                <li><a href="#">修改密码</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="/login_out">登 出</a></li>
+                            </ul>
+                        {% endif %}
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+{% endblock %}

@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    {% include "block/head.html" %}
+    {% block head %}
+    {% endblock %}
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <!--导航栏-->
+            {% include "block/nav.html" %}
+            {% block nav %}
+            {% endblock %}
+            <div class="row">
+                <div class="col-md-2">
+                    <!--左边栏-->
+                    {% include "block/aside.html" %}
+                    {% block aside %}
+                    {% endblock %}
+                </div>
+                <div class="col-md-10">
+                    <!--右边展示-->
+                    {% block right %}
+                    {% endblock %}
+                </div>
+            </div>
+            {% include "block/bottom.html" %}
+            {% block bottom %}
+            {% endblock %}
+        </div>
+    </div>
+</div>
+<!--js 内容-->
+{% block echarts_js %}
+{% endblock %}
+
+{% block aside_js %}
+{% endblock %}
+
+{% block banner_js %}
+{% endblock %}
+
+{% block pre_js %}
+{% endblock %}
+
+</body>
+</html>

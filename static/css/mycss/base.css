@@ -1,0 +1,151 @@
+/* body的样式 */
+body {
+    margin: 0;
+    color: #444;
+    font-family: "proxima-nova", "Helvetica Neue", "Helvetica", "sans-serif";
+}
+
+/* 导航栏的样式 */
+.navbar-top {
+    margin: 0;
+}
+
+.navbar-top li .user-span {
+    color: white;
+    margin-top: 16px;
+}
+
+/* 左边栏的样式 */
+.sidebar {
+    height: 600px;
+    padding: 0;
+    background-color: #f5f5ef;
+}
+
+.sidebar .header {
+    background-color: #f5f5f6;
+    font-size: 20px;
+    color: black;
+    text-align: center;
+    line-height: 65px;
+}
+
+.sidebar .nav ul {
+    margin-top: 8px;
+    padding-left: 6px;
+    margin-right: 0px;
+    list-style: none;
+}
+
+.sidebar .nav ul .list {
+    margin-bottom: 6px;
+}
+
+.sidebar .nav ul .list h2 {
+    position: relative;
+    margin: 0;
+    padding: 15px 0;
+    background-color: #3889d4;
+    text-align: center;
+    font-size: 16px;
+    color: white;
+    transition: .5s;
+}
+
+.sidebar .nav ul .list h2.on {
+    background-color: #3889d4;
+}
+
+.sidebar .nav ul .list i {
+    position: absolute;
+    right: 10px;
+    top: 16px;
+    border: 8px solid transparent;
+    border-left-color: white;
+    transform: rotate(0deg);
+    transform-origin: 1px 8px;
+    transition: .5s;
+}
+
+.sidebar .nav ul .list i.on {
+    transform: rotate(90deg);
+}
+
+.sidebar .nav ul .list .hide1 {
+    margin: 0;
+    overflow: hidden;
+    height: 0px;
+    transition: .5s;
+}
+
+.sidebar .nav ul .list .hide1 h5 {
+    padding: 15px;
+    text-align: center;
+    background-color: lightgray;
+    color: black;
+}
+
+.sidebar .nav ul .list .hide1 a {
+    text-decoration: none;
+}
+
+/* 右边内容的样式 */
+.right-main {
+    height: 580px;
+}
+
+.right-main .page-header {
+    font-size: 30px;
+    margin: 20px;
+}
+
+/* 页脚的样式 */
+.page-bottom {
+    height: 100px;
+    background-color: #d3d3d3;
+}
+
+.page-bottom .bottom-text {
+    margin-top: 40px;
+    text-align: center;
+}
+
+.page-bottom .bottom-text a {
+    text-decoration: none;
+    font-size: 16px;
+    color: lightslategray;
+}
+
+.form-main {
+    margin-top: 45px;
+    text-align: center;
+}
+
+.main {
+    padding: 20px;
+}
+
+.main .page-header {
+    margin-top: 0;
+    font-size: 31px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.placeholders {
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.placeholders h4 {
+    margin-bottom: 0;
+}
+
+.placeholder {
+    margin-bottom: 20px;
+}
+
+.placeholder img {
+    display: inline-block;
+    border-radius: 50%;
+}
