@@ -9,3 +9,9 @@ def login_verify(user, pwd):
     else:
         flag = 0
     return flag
+
+#实现登录验证
+def show_review():
+    sql = 'SELECT * FROM `review_data`;'
+    data = db.query_data(sql)
+    return data

@@ -1,0 +1,34 @@
+/* 数据列表的样式 */
+.card {
+    margin: 20px auto;
+    width: 90%;
+    text-align: center;
+}
+
+.right-main .card .table .thead {
+    background-color: #f5f5ef;
+}
+
+.right-main .card .table thead th {
+    text-align: center;
+}
+
+.right-main .card .table tbody tr {
+    text-align: center;
+}
+
+.right-main .card .table tbody tr .table-index {
+    text-align: center;
+}
+
+.right-main .card .table tbody tr th {
+    vertical-align:middle
+}
+
+.right-main .card .table tbody tr td {
+    vertical-align:middle
+}
+
+.pages{
+    text-align: center;
+}
