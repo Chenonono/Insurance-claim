@@ -76,25 +76,26 @@ def to_excel():
             return redirect('/user_pre')
         f = file.read()
         data_file = xlrd2.open_workbook(file_contents=f)
-        # 选取sheet1
+        #选取sheet1
         table = data_file.sheet_by_index(0)
         data = []
-        feature = {}
         for row_num in range(1, table.nrows):
             data.append(table.row_values(row_num))
             data[row_num-1][0] = int(table.row_values(row_num)[0])
             data[row_num-1][4] = datetime(*xldate_as_tuple(table.row_values(row_num)[4], 0)).strftime('%Y/%m/%d')
             data[row_num-1][5] = datetime(*xldate_as_tuple(table.row_values(row_num)[5], 0)).strftime('%Y/%m/%d')
         #print(data)
+        feature = {}
         for col_num in range(0, table.ncols):
-            feature[table.col_values(col_num)[0]] = np.array(table.col_values(col_num)[1:])
+            feature[table.col_values(col_num)[0]] = table.col_values(col_num)[1:]
         print(feature)
         return render_template('user_pre.html', datas = data, feature = feature)
     return redirect('/user_pre')
 
 @app.route('/data_pre', methods=['POST'])
 def data_pre():
-    print(request.form['feature'])
+    feature = request.form.get('feature')
+    print(feature)
     result = '200'
     return Response(result)
 

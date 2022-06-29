@@ -54,10 +54,8 @@
             </div>
             <div class="col-md-12 sub-pre">
                 <button type="button" class="btn btn-danger btn-cancel"><a href="/user_pre">取消操作</a></button>
-                <form method="post" action="/data_pre">
-                    <input type="hidden" name="feature" value={{ feature }}>
-                    <button type="submit" class="btn btn-primary mb-2 btn-pre">预测数据</button>
-                </form>
+                <input type="hidden" id="feature" value='{{ feature }}'>
+                <button type="button" onclick="pre_data()" class="btn btn-primary btn-pre">预测数据</button>
             </div>
         </div>
     </div>
@@ -113,12 +111,16 @@
                 dataType: "json",
                 url: "/data_pre",
                 //提交的数据
-                data: $("#features"),
+                data: {
+                    "feature": document.getElementById("feature").value
+                },
+                traditional: true,
                 success: function (result) {
                     //打印服务端返回的数据(调试用)
                     if (result.toString() == '200') {
                         alert("提交成功");
-                    };
+                    }
+                    ;
                 },
                 error: function () {
                     alert("提交失败");
