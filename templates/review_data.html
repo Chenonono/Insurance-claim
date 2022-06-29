@@ -9,6 +9,11 @@
         <h1 class="page-header">未审核数据</h1>
         <div class="row">
             <div class="col-md-12">
+                <a href="/review_data">
+                    <button class="btn btn-primary btn-refresh">刷 新</button>
+                </a>
+            </div>
+            <div class="col-md-12">
                 <div class="card">
                     <table class="table">
                         <thead>
@@ -52,46 +57,4 @@
             </ul>
         </nav>
     </div>
-{% endblock %}
-
-{% block aside_js %}
-    <script>
-        (function () {
-            var oList = document.querySelectorAll('.list h2'),
-                oHide = document.querySelectorAll('.hide1'),
-                oIcon = document.querySelectorAll('.list i'),
-                lastIndex = 0;
-            for (var i = 0; i < oList.length; i++) {
-                oList[i].index = i;//自定义属性
-                oList[i].isClick = false;
-                oList[i].initHeight = oHide[i].clientHeight;
-                oHide[i].style.height = '0';
-
-                lastIndex = 0;
-                oHide[0].style.height = '160px';
-                oIcon[0].className = 'on';
-                oList[0].className = 'on';
-                oList[0].isClick = true;
-
-                oList[i].onclick = function () {
-                    if (this.isClick) {
-                        oHide[this.index].style.height = '0';
-                        oIcon[this.index].className = '';
-                        oList[this.index].className = '';
-                        oList[this.index].isClick = false;
-                    } else {
-                        oHide[lastIndex].style.height = '0';
-                        oIcon[lastIndex].className = '';
-                        oList[lastIndex].className = '';
-                        oHide[this.index].style.height = '160px';
-                        oIcon[this.index].className = 'on';
-                        oList[this.index].className = 'on';
-                        oList[lastIndex].isClick = false;
-                        oList[this.index].isClick = true;
-                        lastIndex = this.index;
-                    }
-                }
-            }
-        })();
-    </script>
 {% endblock %}

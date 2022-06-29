@@ -135,7 +135,7 @@ def review_data():
 def rolled_steel_test_delete(id):
     sql = 'delete from review_data where 序号=' + str(id)
     db.insert_or_update_data(sql)
-    return render_template("review_data.html")
+    return redirect('/review_data')
 
 
 if __name__ == "__main__":

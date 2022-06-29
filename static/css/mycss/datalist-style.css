@@ -1,4 +1,8 @@
 /* 数据列表的样式 */
+.btn-refresh {
+    margin-left: 100px;
+}
+
 .card {
     margin: 20px auto;
     width: 90%;
@@ -22,13 +26,13 @@
 }
 
 .right-main .card .table tbody tr th {
-    vertical-align:middle
+    vertical-align: middle
 }
 
 .right-main .card .table tbody tr td {
-    vertical-align:middle
+    vertical-align: middle
 }
 
-.pages{
+.pages {
     text-align: center;
 }

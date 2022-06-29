@@ -25,82 +25,72 @@
                 </form>
             </div>
             <div class="col-md-12">
-                <div class="card">
-                    <table class="table">
-                        <thead>
-                        <tr class="thead">
-                            <th scope="col">编号</th>
-                            <th scope="col">性别</th>
-                            <th scope="col">疾病</th>
-                            <th scope="col">理赔金额</th>
-                            <th scope="col">理赔时间</th>
-                            <th scope="col">截止日期</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for data in datas %}
-                            <tr>
-                                <th scope="row" class="table-index">{{ data[0] }}</th>
-                                <td>{{ data[1] }}</td>
-                                <td>{{ data[2] }}</td>
-                                <td>{{ data[3] }}</td>
-                                <td>{{ data[4] }}</td>
-                                <td>{{ data[5] }}</td>
+                <div class="row pre-scrollable table-scroll">
+                    <div class="card">
+                        <table class="table">
+                            <thead>
+                            <tr class="thead">
+                                <th scope="col">编号</th>
+                                <th scope="col">性别</th>
+                                <th scope="col">疾病</th>
+                                <th scope="col">理赔金额</th>
+                                <th scope="col">理赔时间</th>
+                                <th scope="col">截止日期</th>
+                                <th scope="col">理赔金额</th>
+                                <th scope="col">理赔时间</th>
+                                <th scope="col">截止日期</th>
+                                <th scope="col">理赔金额</th>
+                                <th scope="col">理赔时间</th>
+                                <th scope="col">截止日期</th>
+                                <th scope="col">理赔金额</th>
+                                <th scope="col">理赔时间</th>
+                                <th scope="col">截止日期</th>
+                                <th scope="col">理赔金额</th>
+                                <th scope="col">理赔时间</th>
+                                <th scope="col">截止日期</th>
+                                <th scope="col">理赔金额</th>
+                                <th scope="col">理赔时间</th>
+                                <th scope="col">截止日期</th>
                             </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                            {% for data in datas %}
+                                <tr>
+                                    <th scope="row" class="table-index">{{ data[0] }}</th>
+                                    <td>{{ data[1] }}</td>
+                                    <td>{{ data[2] }}</td>
+                                    <td>{{ data[3] }}</td>
+                                    <td>{{ data[4] }}</td>
+                                    <td>{{ data[5] }}</td>
+                                    <td>{{ data[6] }}</td>
+                                    <td>{{ data[7] }}</td>
+                                    <td>{{ data[8] }}</td>
+                                    <td>{{ data[9] }}</td>
+                                    <td>{{ data[10] }}</td>
+                                    <td>{{ data[11] }}</td>
+                                    <td>{{ data[12] }}</td>
+                                    <td>{{ data[13] }}</td>
+                                    <td>{{ data[14] }}</td>
+                                    <td>{{ data[15] }}</td>
+                                    <td>{{ data[16] }}</td>
+                                    <td>{{ data[17] }}</td>
+                                    <td>{{ data[18] }}</td>
+                                    <td>{{ data[19] }}</td>
+                                    <td>{{ data[20] }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
             <div class="col-md-12 sub-pre">
-                <button type="button" class="btn btn-danger btn-cancel"><a href="/user_pre">取消操作</a></button>
+                <button type="button" class="btn btn-danger btn-cancel"><a href="/user_pre">取 消</a></button>
                 <input type="hidden" id="file" value='{{ file }}'>
-                <button type="button" onclick="pre_data()" class="btn btn-primary btn-pre">预测数据</button>
+                <button type="button" onclick="pre_data()" class="btn btn-primary btn-pre">预 测</button>
             </div>
         </div>
     </div>
-{% endblock %}
-
-{% block aside_js %}
-    <script>
-        (function () {
-            var oList = document.querySelectorAll('.list h2'),
-                oHide = document.querySelectorAll('.hide1'),
-                oIcon = document.querySelectorAll('.list i'),
-                lastIndex = 0;
-            for (var i = 0; i < oList.length; i++) {
-                oList[i].index = i;//自定义属性
-                oList[i].isClick = false;
-                oList[i].initHeight = oHide[i].clientHeight;
-                oHide[i].style.height = '0';
-
-                lastIndex = 0;
-                oHide[0].style.height = '160px';
-                oIcon[0].className = 'on';
-                oList[0].className = 'on';
-                oList[0].isClick = true;
-
-                oList[i].onclick = function () {
-                    if (this.isClick) {
-                        oHide[this.index].style.height = '0';
-                        oIcon[this.index].className = '';
-                        oList[this.index].className = '';
-                        oList[this.index].isClick = false;
-                    } else {
-                        oHide[lastIndex].style.height = '0';
-                        oIcon[lastIndex].className = '';
-                        oList[lastIndex].className = '';
-                        oHide[this.index].style.height = '160px';
-                        oIcon[this.index].className = 'on';
-                        oList[this.index].className = 'on';
-                        oList[lastIndex].isClick = false;
-                        oList[this.index].isClick = true;
-                        lastIndex = this.index;
-                    }
-                }
-            }
-        })();
-    </script>
 {% endblock %}
 
 {% block pre_js %}
