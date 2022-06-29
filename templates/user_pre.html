@@ -54,7 +54,7 @@
             </div>
             <div class="col-md-12 sub-pre">
                 <button type="button" class="btn btn-danger btn-cancel"><a href="/user_pre">取消操作</a></button>
-                <input type="hidden" id="feature" value='{{ feature }}'>
+                <input type="hidden" id="file" value='{{ file }}'>
                 <button type="button" onclick="pre_data()" class="btn btn-primary btn-pre">预测数据</button>
             </div>
         </div>
@@ -112,9 +112,8 @@
                 url: "/data_pre",
                 //提交的数据
                 data: {
-                    "feature": document.getElementById("feature").value
+                    "file": document.getElementById("file").value
                 },
-                traditional: true,
                 success: function (result) {
                     //打印服务端返回的数据(调试用)
                     if (result.toString() == '200') {

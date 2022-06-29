@@ -6,7 +6,9 @@ import numpy as np
 import xlrd2
 from xlrd2 import xldate_as_tuple
 import json
+import calendar, time, os
 from datetime import datetime
+from werkzeug.datastructures import FileStorage
 from flask import Flask, render_template, jsonify, request, redirect, url_for, session, Response
 # 自己写的文件
 import db
@@ -50,10 +52,12 @@ def login():
         return render_template('user_login.html')
     user = request.form.get('usernum')
     pwd = request.form.get('password')
-    if user == '0001' and pwd == '123456':
+    flag = get_data.login_verify(user, pwd)
+    #print(flag)
+    if flag:
         session['user'] = user
         return redirect('/')
-    return render_template('user_login.html', error="账号或密码错误")
+    return render_template('user_login.html')
 
 
 @app.route('/login_out')
@@ -74,30 +78,44 @@ def to_excel():
         file = request.files.get('pre_file')
         if not file:
             return redirect('/user_pre')
+        file_name = file.filename
+        suffix = os.path.splitext(file_name)[-1]  # 获取文件后缀（扩展名）
+        basePath = os.path.dirname(__file__)  # 当前文件所在路径print(basePath)
+        nowTime = calendar.timegm(time.gmtime())  # 获取当前时间戳改文件名
+        upload_path = os.path.join(basePath, 'upload',
+                                   str(nowTime))  # 改到upload目录下# 注意：没有的文件夹一定要先创建，不然会提示没有该路径
+        upload_path = os.path.abspath(upload_path)  # 将路径转换为绝对路径
+        file.save(upload_path + suffix)  # 保存文件
+        file_add = upload_path + suffix
+        file.seek(0)
         f = file.read()
         data_file = xlrd2.open_workbook(file_contents=f)
-        #选取sheet1
+        # 选取sheet1
         table = data_file.sheet_by_index(0)
         data = []
         for row_num in range(1, table.nrows):
             data.append(table.row_values(row_num))
-            data[row_num-1][0] = int(table.row_values(row_num)[0])
-            data[row_num-1][4] = datetime(*xldate_as_tuple(table.row_values(row_num)[4], 0)).strftime('%Y/%m/%d')
-            data[row_num-1][5] = datetime(*xldate_as_tuple(table.row_values(row_num)[5], 0)).strftime('%Y/%m/%d')
-        #print(data)
-        feature = {}
-        for col_num in range(0, table.ncols):
-            feature[table.col_values(col_num)[0]] = table.col_values(col_num)[1:]
-        print(feature)
-        return render_template('user_pre.html', datas = data, feature = feature)
+            data[row_num - 1][0] = int(table.row_values(row_num)[0])
+            data[row_num - 1][4] = datetime(*xldate_as_tuple(table.row_values(row_num)[4], 0)).strftime('%Y/%m/%d')
+            data[row_num - 1][5] = datetime(*xldate_as_tuple(table.row_values(row_num)[5], 0)).strftime('%Y/%m/%d')
+        # print(data)
+        return render_template('user_pre.html', datas=data, file=file_add)
     return redirect('/user_pre')
+
 
 @app.route('/data_pre', methods=['POST'])
 def data_pre():
-    feature = request.form.get('feature')
-    print(feature)
+    file = request.form.get('file')
+    f = open(file, "rb").read()
+    data_file = xlrd2.open_workbook(file_contents=f)
+    table = data_file.sheet_by_index(0)
+    feature = {}
+    for col_num in range(0, table.ncols):
+        feature[table.col_values(col_num)[0]] = table.col_values(col_num)[1:]
+    #print(feature)
     result = '200'
     return Response(result)
+
 
 # 历史成材率数据
 @app.route('/rolled_steel_train')
