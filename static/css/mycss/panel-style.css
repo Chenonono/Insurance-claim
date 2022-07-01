@@ -1,0 +1,61 @@
+.container-fluid{
+    background-color: #001E70;
+}
+
+.row h2 {
+    text-align: center;
+    background-color: rgba(22, 132, 252, 0.75);
+    height: 34px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.row h2 span{
+    font-size: 20px;
+    color: white;
+    vertical-align: center;
+    line-height: 34px;
+}
+
+.row .button-area{
+    margin-top: 20px;
+}
+
+.row .button-area button{
+    float: right;
+    margin-right: 30px;
+    background-color: rgba(22, 132, 252, 0.75);
+}
+
+.divide-line{
+    width: 100%;
+    size: 3px;
+    color: #bbbcbc;
+    margin: 4px 0;
+}
+
+.divide-line-middle{
+    width: 100%;
+    size: 3px;
+    color: #bbbcbc;
+    margin: 0;
+}
+
+.row .show-data{
+    background-color: rgba(22, 132, 252, 0.75);
+    text-align: center;
+    height: 48px;
+}
+
+.row .show-data span{
+    width: 100%;
+    display: block;
+    font-size: 15px;
+    color: white;
+    line-height: 24px;
+    vertical-align: center;
+}
+
+.show-area div{
+    height: 313px;
+}

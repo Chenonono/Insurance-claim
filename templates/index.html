@@ -26,6 +26,41 @@
     </div>
 {% endblock %}
 
+{% block aside_js %}
+    <script>
+        (function () {
+            var oList = document.querySelectorAll('.list h2'),
+                oHide = document.querySelectorAll('.hide1'),
+                oIcon = document.querySelectorAll('.list i'),
+                lastIndex = 0;
+            oHide[0].style.height = '160px';
+            oIcon[0].className = 'on';
+            oList[0].className = 'on';
+            oList[0].isClick = true;
+
+            for (var i = 0; i < oList.length; i++) {
+                oList[i].index = i;//自定义属性
+                oList[i].initHeight = oHide[i].clientHeight;
+
+                oList[i].onclick = function () {
+                    if (this.isClick) {
+                        oHide[this.index].style.height = '0';
+                        oIcon[this.index].className = '';
+                        oList[this.index].className = '';
+                        oList[this.index].isClick = false;
+                    } else {
+                        oHide[this.index].style.height = '160px';
+                        oIcon[this.index].className = 'on';
+                        oList[this.index].className = 'on';
+                        oList[this.index].isClick = true;
+                        lastIndex = this.index;
+                    }
+                }
+            }
+        })();
+    </script>
+{% endblock %}
+
 {% block banner_js %}
     <script>
         //界面加载完毕执行以下程序

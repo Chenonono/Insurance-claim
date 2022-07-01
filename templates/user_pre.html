@@ -27,30 +27,33 @@
             <div class="col-md-12">
                 <div class="row pre-scrollable table-scroll">
                     <div class="card">
-                        <table class="table">
+                    <div class=table-responsive">
+                        <table class="table text-nowrap">
                             <thead>
                             <tr class="thead">
-                                <th scope="col">编号</th>
-                                <th scope="col">性别</th>
-                                <th scope="col">疾病</th>
-                                <th scope="col">理赔金额</th>
-                                <th scope="col">理赔时间</th>
-                                <th scope="col">截止日期</th>
-                                <th scope="col">理赔金额</th>
-                                <th scope="col">理赔时间</th>
-                                <th scope="col">截止日期</th>
-                                <th scope="col">理赔金额</th>
-                                <th scope="col">理赔时间</th>
-                                <th scope="col">截止日期</th>
-                                <th scope="col">理赔金额</th>
-                                <th scope="col">理赔时间</th>
-                                <th scope="col">截止日期</th>
-                                <th scope="col">理赔金额</th>
-                                <th scope="col">理赔时间</th>
-                                <th scope="col">截止日期</th>
-                                <th scope="col">理赔金额</th>
-                                <th scope="col">理赔时间</th>
-                                <th scope="col">截止日期</th>
+                                <th scope="col">理赔号</th>
+                                <th scope="col">姓名</th>
+                                <th scope="col">出险开始日期</th>
+                                <th scope="col">出险结束日期</th>
+                                <th scope="col">发票金额</th>
+                                <th scope="col">社保基金支付</th>
+                                <th scope="col">第三方支付金额</th>
+                                <th scope="col">自费</th>
+                                <th scope="col">分类自负</th>
+                                <th scope="col">自负比例</th>
+                                <th scope="col">发票总金额</th>
+                                <th scope="col">福利类型</th>
+                                <th scope="col">被保险人类型</th>
+                                <th scope="col">福利项目</th>
+                                <th scope="col">疾病代码</th>
+                                <th scope="col">核准金额</th>
+                                <th scope="col">医院代码</th>
+                                <th scope="col">理赔收单日</th>
+                                <th scope="col">被保险人编号</th>
+                                <th scope="col">医院等级</th>
+                                <th scope="col">险种类型代码</th>
+                                <th scope="col">年数</th>
+                                <th scope="col">案件条拒赔代码列表</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -77,10 +80,13 @@
                                     <td>{{ data[18] }}</td>
                                     <td>{{ data[19] }}</td>
                                     <td>{{ data[20] }}</td>
+                                    <td>{{ data[21] }}</td>
+                                    <td>{{ data[22] }}</td>
                                 </tr>
                             {% endfor %}
                             </tbody>
                         </table>
+                    </div>
                     </div>
                 </div>
             </div>
@@ -116,5 +122,40 @@
                 }
             });
         };
+    </script>
+{% endblock %}
+
+{% block aside_js %}
+    <script>
+        (function () {
+            var oList = document.querySelectorAll('.list h2'),
+                oHide = document.querySelectorAll('.hide1'),
+                oIcon = document.querySelectorAll('.list i'),
+                lastIndex = 0;
+            oHide[0].style.height = '160px';
+            oIcon[0].className = 'on';
+            oList[0].className = 'on';
+            oList[0].isClick = true;
+
+            for (var i = 0; i < oList.length; i++) {
+                oList[i].index = i;//自定义属性
+                oList[i].initHeight = oHide[i].clientHeight;
+
+                oList[i].onclick = function () {
+                    if (this.isClick) {
+                        oHide[this.index].style.height = '0';
+                        oIcon[this.index].className = '';
+                        oList[this.index].className = '';
+                        oList[this.index].isClick = false;
+                    } else {
+                        oHide[this.index].style.height = '160px';
+                        oIcon[this.index].className = 'on';
+                        oList[this.index].className = 'on';
+                        oList[this.index].isClick = true;
+                        lastIndex = this.index;
+                    }
+                }
+            }
+        })();
     </script>
 {% endblock %}

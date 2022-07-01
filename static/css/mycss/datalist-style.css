@@ -1,11 +1,11 @@
 /* 数据列表的样式 */
 .btn-refresh {
-    margin-left: 100px;
+    margin-left: 80px;
 }
 
 .card {
-    margin: 20px auto;
-    width: 90%;
+    margin-left: 0;
+    margin-top: 0;
     text-align: center;
 }
 
@@ -15,24 +15,66 @@
 
 .right-main .card .table thead th {
     text-align: center;
+    position: sticky;
+    top: 0;
+    background-color: #f5f5ef;
 }
 
-.right-main .card .table tbody tr {
-    text-align: center;
-}
-
+.right-main .card .table tbody tr,
 .right-main .card .table tbody tr .table-index {
     text-align: center;
 }
 
-.right-main .card .table tbody tr th {
-    vertical-align: middle
+.right-main .card .table tbody tr th,
+.right-main .card .table tbody tr td {
+    vertical-align: middle;
 }
 
-.right-main .card .table tbody tr td {
-    vertical-align: middle
+.right-main .card .table tbody tr td .alert{
+    width: 60px;
+    height: 40px;
+    padding-top: 10px;
+    margin-bottom: 0;
+}
+
+.right-main .card .table tbody tr td .alert-status{
+    margin: 20px auto;
+    text-align: center;
+}
+
+.btns{
+    width: 60px;
 }
 
 .pages {
     text-align: center;
+}
+
+/* 滚动条的样式 */
+.table-scroll {
+    width: 100%;
+    margin: 20px auto;
+    text-align: center;
+    overflow: auto;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+    border-radius: 10px;
+    background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+    border-radius: 10px;
+    background-image: -webkit-gradient(linear, left bottom, left top, color-stop(rgb(245, 245, 239)));
+    transition: 0.3s ease-in-out;
+}
+
+::-webkit-scrollbar-track {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    background-color: #F5F5F5;
 }

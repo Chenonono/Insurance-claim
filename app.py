@@ -12,8 +12,10 @@ from werkzeug.datastructures import FileStorage
 from flask import Flask, render_template, jsonify, request, redirect, url_for, session, Response
 # 自己写的文件
 import db
-import get_data, sub_data
+import get_data, update_data
 from page_utils import Pagination
+import predict
+import panel_show
 
 app = Flask(__name__)
 app.secret_key = 'znlpxt'
@@ -22,7 +24,7 @@ app.config['DEBUG'] = True
 
 # 网站主页
 @app.route('/')
-def data_show():
+def index():
     return render_template('index.html')
 
 
@@ -95,9 +97,14 @@ def to_excel():
         for row_num in range(1, table.nrows):
             data.append(table.row_values(row_num))
             data[row_num - 1][0] = int(table.row_values(row_num)[0])
-            data[row_num - 1][4] = datetime(*xldate_as_tuple(table.row_values(row_num)[4], 0)).strftime('%Y/%m/%d')
-            data[row_num - 1][5] = datetime(*xldate_as_tuple(table.row_values(row_num)[5], 0)).strftime('%Y/%m/%d')
-        # print(data)
+            data[row_num - 1][2] = datetime(*xldate_as_tuple(table.row_values(row_num)[2], 0)).strftime('%Y/%m/%d')
+            data[row_num - 1][3] = datetime(*xldate_as_tuple(table.row_values(row_num)[3], 0)).strftime('%Y/%m/%d')
+            data[row_num - 1][16] = int(table.row_values(row_num)[16])
+            data[row_num - 1][17] = datetime(*xldate_as_tuple(table.row_values(row_num)[17], 0)).strftime('%Y/%m/%d')
+            data[row_num - 1][18] = int(table.row_values(row_num)[18])
+            data[row_num - 1][21] = int(table.row_values(row_num)[21])
+        #print(data)
+        #print(file_add)
         return render_template('user_pre.html', datas=data, file=file_add)
     return redirect('/user_pre')
 
@@ -105,38 +112,86 @@ def to_excel():
 @app.route('/data_pre', methods=['POST'])
 def data_pre():
     file = request.form.get('file')
+    print(file)
     f = open(file, "rb").read()
     data_file = xlrd2.open_workbook(file_contents=f)
     table = data_file.sheet_by_index(0)
     feature = {}
     for col_num in range(0, table.ncols):
         feature[table.col_values(col_num)[0]] = table.col_values(col_num)[1:]
-    #print(feature)
-    flag = sub_data.sub_review_data(feature)
-    result = '200'
+    print(feature)
+    prob, label = predict.predict(feature)
+    flag = update_data.sub_review_data(feature, prob, label)
+    if flag:
+        result = '200'
     return Response(result)
 
 #展示已审核数据
 @app.route('/reviewed_data')
 def reviewed_data():
-    return render_template('reviewed_data.html')
+    flag = get_data.admin_verify(session['user'])
+    if not flag:
+        return render_template('index.html', error_msg="用户不是管理员")
+    data = get_data.show_reviewed()
+    pager_obj = Pagination(request.args.get("page", 1), len(data), request.path, request.args, per_page_count=6)
+    data_list = data[pager_obj.start:pager_obj.end]
+    html = pager_obj.page_html()
+    return render_template('reviewed_data.html', datas=data_list, html=html)
 
 #展示未审核数据
 @app.route('/review_data')
 def review_data():
+    flag = get_data.admin_verify(session['user'])
+    if not flag:
+        return render_template('index.html', error_msg="用户不是管理员")
     data = get_data.show_review()
     pager_obj = Pagination(request.args.get("page", 1), len(data), request.path, request.args, per_page_count=6)
     data_list = data[pager_obj.start:pager_obj.end]
     html = pager_obj.page_html()
     return render_template('review_data.html', datas = data_list, html=html)
 
-
-@app.route('/review_data_delete/<int:id>')
-def rolled_steel_test_delete(id):
-    sql = 'delete from review_data where 序号=' + str(id)
-    db.insert_or_update_data(sql)
+#接受理赔
+@app.route('/review_data_ac/<int:id>')
+def review_data_ac(id):
+    data = get_data.get_onereview(id)
+    print(data)
+    flag = update_data.del_onereview(id)
+    if flag:
+        update_data.sub_onereviewed(data[0], label=1)
     return redirect('/review_data')
 
+#拒绝理赔
+@app.route('/review_data_rj/<int:id>')
+def review_data_rj(id):
+    data = get_data.get_onereview(id)
+    #print(data[0])
+    flag = update_data.del_onereview(id)
+    if flag:
+        update_data.sub_onereviewed(data[0], label=0)
+    return redirect('/review_data')
+
+#删除已审核数据
+@app.route('/reviewed_data_del/<int:id>')
+def reviewed_data_del(id):
+    flag = update_data.del_onereviewed(id)
+    if flag:
+        print("删除成功")
+    return redirect('/reviewed_data')
+
+#预测结果展示
+@app.route('/show_result')
+def show_result():
+    data = get_data.show_result()
+    pager_obj = Pagination(request.args.get("page", 1), len(data), request.path, request.args, per_page_count=5)
+    data_list = data[pager_obj.start:pager_obj.end]
+    html = pager_obj.page_html()
+    return render_template('pre_result.html', datas = data_list, html=html)
+
+#数据表盘展示
+@app.route('/show_panel')
+def show_panel():
+    prov_cnt, value_cnt, code_cnt, month_cnt = panel_show.get_data()
+    return render_template('show_panel.html', data1=prov_cnt, data2=value_cnt, data3=code_cnt, data4=month_cnt)
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0')

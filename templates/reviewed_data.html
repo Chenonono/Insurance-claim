@@ -9,39 +9,89 @@
         <h1 class="page-header">已审核数据</h1>
         <div class="row">
             <div class="col-md-12">
-                <div class="card">
-                    <table class="table">
-                        <thead>
-                        <tr class="thead">
-                            <th scope="col">编号</th>
-                            <th scope="col">性别</th>
-                            <th scope="col">疾病</th>
-                            <th scope="col">理赔金额</th>
-                            <th scope="col">理赔时间</th>
-                            <th scope="col">截止日期</th>
-                            <th scope="col">删除操作</th>
-                            <th scope="col">编辑操作</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for data in datas %}
-                            <tr>
-                                <th scope="row" class="table-index">{{ data[0] }}</th>
-                                <td>{{ data[1] }}</td>
-                                <td>{{ data[2] }}</td>
-                                <td>{{ data[3] }}</td>
-                                <td>{{ data[4] }}</td>
-                                <td>{{ data[5] }}</td>
-                                <td><a href="/rolled_steel_test_delete/{{ data[0] }}">
-                                    <button class="btn btn-danger">删除数据</button>
-                                </a></td>
-                                <td><a href="#">
-                                    <button class="btn btn-warning">编辑数据</button>
-                                </a></td>
+                <a href="/reviewed_data">
+                    <button class="btn btn-primary btn-refresh">刷 新</button>
+                </a>
+            </div>
+            <div class="col-md-12">
+                <div class="row pre-scrollable table-scroll">
+                    <div class="card">
+                    <div class=table-responsive">
+                        <table class="table text-nowrap">
+                            <thead>
+                            <tr class="thead">
+                                <th scope="col">理赔号</th>
+                                <th scope="col">姓名</th>
+                                <th scope="col">出险开始日期</th>
+                                <th scope="col">出险结束日期</th>
+                                <th scope="col">发票金额</th>
+                                <th scope="col">社保基金支付</th>
+                                <th scope="col">第三方支付金额</th>
+                                <th scope="col">自费</th>
+                                <th scope="col">分类自负</th>
+                                <th scope="col">自负比例</th>
+                                <th scope="col">发票总金额</th>
+                                <th scope="col">福利类型</th>
+                                <th scope="col">被保险人类型</th>
+                                <th scope="col">福利项目</th>
+                                <th scope="col">疾病代码</th>
+                                <th scope="col">核准金额</th>
+                                <th scope="col">医院代码</th>
+                                <th scope="col">理赔收单日</th>
+                                <th scope="col">被保险人编号</th>
+                                <th scope="col">医院等级</th>
+                                <th scope="col">险种类型代码</th>
+                                <th scope="col">年数</th>
+                                <th scope="col">案件条拒赔代码列表</th>
+                                <th scope="col">审核状态</th>
+                                <th scope="col">删除数据</th>
                             </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                            {% for data in datas %}
+                                <tr>
+                                    <th scope="row" class="table-index">{{ data['CL_NO'] }}</th>
+                                    <td>{{ data['NAME'] }}</td>
+                                    <td>{{ data['INCUR_DATE_FROM'] }}</td>
+                                    <td>{{ data['INCUR_DATE_TO'] }}</td>
+                                    <td>{{ data['SUB_AMT'] }}</td>
+                                    <td>{{ data['CL_SOCIAL_PAY_AMT'] }}</td>
+                                    <td>{{ data['CL_THIRD_PARTY_PAY_AMT'] }}</td>
+                                    <td>{{ data['CL_OWNER_PAY_AMT'] }}</td>
+                                    <td>{{ data['CL_SELF_CAT_PAY_AMT'] }}</td>
+                                    <td>{{ data['COPAY_PCT'] }}</td>
+                                    <td>{{ data['TOTAL_RECEIPT_AMT'] }}</td>
+                                    <td>{{ data['BEN_TYPE'] }}</td>
+                                    <td>{{ data['MBR_TYPE'] }}</td>
+                                    <td>{{ data['BEN_HEAD'] }}</td>
+                                    <td>{{ data['DIAG_CODE'] }}</td>
+                                    <td>{{ data['ORG_PRES_AMT_VALUE'] }}</td>
+                                    <td>{{ data['PROV_CODE'] }}</td>
+                                    <td>{{ data['RCV_DATE'] }}</td>
+                                    <td>{{ data['MBR_NO'] }}</td>
+                                    <td>{{ data['PROV_LEVEL'] }}</td>
+                                    <td>{{ data['KIND_CODE'] }}</td>
+                                    <td>{{ data['NO_OF_YR'] }}</td>
+                                    <td>{{ data['CODES'] }}</td>
+                                    <td>
+                                        {% if data['CL_LINE_STATUS'] %}
+                                            <div class="alert alert-success" role="alert"><p>AC</p></div>
+                                        {% endif %}
+                                        {% if not data['CL_LINE_STATUS'] %}
+                                            <div class="alert alert-danger" role="alert">
+                                                RJ
+                                            </div>
+                                        {% endif %}
+                                    </td>
+                                    <td><a href="/reviewed_data_del/{{ data['ID'] }}">
+                                        <button class="btn-sm btn-danger btns">删 除</button>
+                                    </a></td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -52,4 +102,39 @@
             </ul>
         </nav>
     </div>
+{% endblock %}
+
+{% block aside_js %}
+    <script>
+        (function () {
+            var oList = document.querySelectorAll('.list h2'),
+                oHide = document.querySelectorAll('.hide1'),
+                oIcon = document.querySelectorAll('.list i'),
+                lastIndex = 1;
+            oHide[1].style.height = '160px';
+            oIcon[1].className = 'on';
+            oList[1].className = 'on';
+            oList[1].isClick = true;
+
+            for (var i = 0; i < oList.length; i++) {
+                oList[i].index = i;//自定义属性
+                oList[i].initHeight = oHide[i].clientHeight;
+
+                oList[i].onclick = function () {
+                    if (this.isClick) {
+                        oHide[this.index].style.height = '0';
+                        oIcon[this.index].className = '';
+                        oList[this.index].className = '';
+                        oList[this.index].isClick = false;
+                    } else {
+                        oHide[this.index].style.height = '160px';
+                        oIcon[this.index].className = 'on';
+                        oList[this.index].className = 'on';
+                        oList[this.index].isClick = true;
+                        lastIndex = this.index;
+                    }
+                }
+            }
+        })();
+    </script>
 {% endblock %}

@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    {% include "block/head.html" %}
+    {% block head %}
+    {% endblock %}
+    <link href="../static/css/mycss/panel-style.css" rel="stylesheet">
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-4 col-md-offset-4">
+                <h2>
+                    <span>客户理赔行为分析</span>
+                </h2>
+            </div>
+            <div class="col-md-4 button-area">
+                <a href="/">
+                    <button class="btn btn-primary btn-refresh">返 回</button>
+                </a>
+                <a href="/show_panel">
+                    <button class="btn btn-primary btn-refresh">刷 新</button>
+                </a>
+            </div>
+            <hr class="divide-line">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="show-data">
+                        <span>正常理赔数</span>
+                        <span>27693次</span>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="show-data">
+                        <span>异常理赔数</span>
+                        <span>8527次</span>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="show-data">
+                        <span>最高理赔金额</span>
+                        <span>35000.0元</span>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="show-data">
+                        <span>平均理赔金额</span>
+                        <span>137.95元</span>
+                    </div>
+                </div>
+            </div>
+            <hr class="divide-line">
+        </div>
+        <div class="col-md-12">
+            <div class="row show-area">
+                <div class="col-md-6" id="chart1">
+                </div>
+                <div class="col-md-6" id="chart2">
+                </div>
+            </div>
+        </div>
+        <hr class="divide-line-middle">
+        <div class="col-md-12">
+            <div class="row show-area">
+                <div class="col-md-4" id="chart3">
+                </div>
+                <div class="col-md-8" id="chart4">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--js 内容-->
+{% block echarts_js %}
+    <script type="module">
+        const data1 =
+        {{ data1 }}
+        var chartDom = document.getElementById('chart1');
+        var myChart = echarts.init(chartDom);
+        var option;
+
+        option = {
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'shadow'
+                },
+                appendToBody: true
+            },
+            title: {
+                text: '医院评级分析',
+                left: 'center',
+                padding: 15,
+                textStyle: {
+                    fontSize: 25,
+                    fontWeight: 'bolder',
+                    color: 'white'
+                }
+            },
+            legend: {
+                right: 30,
+                top: 'center',
+                orient: 'vertical',
+                textStyle: {color: 'white'},
+            },
+            grid: {
+                left: '3%',
+                right: '20%',
+                bottom: '3%',
+                containLabel: true
+            },
+
+            xAxis: {
+                type: 'value',
+                name: '理赔数目',
+                nameTextStyle: {color: 'white'},
+                axisLabel: {
+                    color: 'white',
+                }
+            },
+            yAxis: {
+                type: 'category',
+                name: '医院评级',
+                nameTextStyle: {color: 'white'},
+                data: ['未知', '非医保', '医保', '未评级', '三级', '二级', '一级'],
+                axisLabel: {
+                    color: 'white',
+                }
+            },
+            series: [
+                {
+                    name: '正常理赔',
+                    type: 'bar',
+                    stack: 'total',
+                    emphasis: {
+                        focus: 'series'
+                    },
+                    data: data1[0]
+                },
+                {
+                    name: '异常理赔',
+                    type: 'bar',
+                    stack: 'total',
+                    emphasis: {
+                        focus: 'series'
+                    },
+                    data: data1[1]
+                }
+            ]
+        };
+
+        option && myChart.setOption(option);
+
+    </script>
+    <script type="module">
+        const data2 =
+        {{ data2 }}
+        var chartDom = document.getElementById('chart2');
+        var myChart = echarts.init(chartDom);
+        var option;
+
+        option = {
+            title: {
+                text: '理赔金额分析',
+                left: 'center',
+                padding: 15,
+                textStyle: {
+                    fontSize: 25,
+                    fontWeight: 'bolder',
+                    color: 'white'
+                }
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'cross',
+                    crossStyle: {
+                        color: '#999'
+                    }
+                },
+                appendToBody: true,
+            },
+            legend: {
+                bottom: 15,
+                data: ['正常理赔', '异常理赔'],
+                textStyle: {
+                    color: 'white'
+                }
+            },
+            xAxis: [
+                {
+                    type: 'category',
+                    data: ['低于100元', '100~500元', '500~900元', '高于900元'],
+                    axisPointer: {
+                        type: 'shadow'
+                    },
+                    nameTextStyle: {color: 'white'},
+                    axisLabel: {
+                        color: 'white',
+                    }
+                }
+            ],
+            yAxis: [
+                {
+                    type: 'value',
+                    name: '理赔数目',
+                    axisLabel: {
+                        color: 'white',
+                        formatter: '{value} 次'
+                    },
+                    nameTextStyle: {color: 'white'}
+                }
+            ],
+            series: [
+                {
+                    name: '正常理赔',
+                    type: 'bar',
+                    tooltip: {
+                        valueFormatter: function (value) {
+                            return value + ' 次';
+                        }
+                    },
+                    data: data2[0]
+                },
+                {
+                    name: '异常理赔',
+                    type: 'bar',
+                    tooltip: {
+                        valueFormatter: function (value) {
+                            return value + ' 次';
+                        }
+                    },
+                    data: data2[1]
+                }
+            ]
+        };
+
+        option && myChart.setOption(option);
+
+
+    </script>
+    <script type="module">
+        const data3 =
+        {{ data3 }}
+        var chartDom = document.getElementById('chart3');
+        var myChart = echarts.init(chartDom);
+        var option;
+
+        option = {
+            title: {
+                text: '理赔疾病占比',
+                left: 30,
+                top: 5,
+                padding: 15,
+                textStyle: {
+                    fontSize: 25,
+                    fontWeight: 'bolder',
+                    color: 'white'
+                }
+            },
+            tooltip: {
+                trigger: 'item',
+                appendToBody: true,
+            },
+            legend: {
+                bottom: 10,
+                left: 'center',
+                textStyle: {
+                    color: 'white'
+                }
+            },
+            series: [{
+                width:500,
+                name: '理赔疾病',
+                type: 'pie',
+                radius: '50%',
+                data: [
+                    {value: data3[0], name: '急性上呼吸道感染'},
+                    {value: data3[1], name: '不适和疲劳'},
+                    {value: data3[2], name: '发热'},
+                    {value: data3[3], name: '咳嗽'},
+                    {value: data3[4], name: '支气管炎'}
+                ],
+                emphasis: {
+                    itemStyle: {
+                        shadowBlur: 10,
+                        shadowOffsetX: 0,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                    }
+                }
+            }]
+        };
+        option && myChart.setOption(option);
+
+    </script>
+    <script type="module">
+        const data4 =
+        {{ data4 }}
+        var chartDom = document.getElementById('chart4');
+        var myChart = echarts.init(chartDom);
+        var option;
+
+        option = {
+            color: ['#00DDFF', '#FF0087'],
+            title: {
+                text: '理赔时间分布',
+                left: 'center',
+                padding: 15,
+                textStyle: {
+                    fontSize: 25,
+                    fontWeight: 'bolder',
+                    color: 'white'
+                }
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'cross',
+                    label: {
+                        backgroundColor: '#6a7985'
+                    }
+                },
+                appendToBody: true
+            },
+            legend: {
+                data: ['正常理赔', '异常理赔'],
+                top: 15,
+                right: 60,
+                textStyle: {
+                    color: 'white'
+                }
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            xAxis: [
+                {
+                    type: 'category',
+                    name: '月份',
+                    boundaryGap: false,
+                    nameTextStyle: {color: 'white'},
+                    axisLabel: {
+                        color: 'white',
+                    },
+                    data: ['一月', '二月', '三月', '四月']
+                }
+            ],
+            yAxis: [
+                {
+                    type: 'value',
+                    name: '理赔数目',
+                    nameTextStyle: {color: 'white'},
+                    axisLabel: {
+                        color: 'white',
+                    }
+                }
+            ],
+            series: [
+                {
+                    name: '正常理赔',
+                    type: 'line',
+                    stack: 'Total',
+                    smooth: true,
+                    lineStyle: {
+                        width: 0
+                    },
+                    showSymbol: false,
+                    areaStyle: {
+                        opacity: 0.8,
+                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                            {
+                                offset: 0,
+                                color: 'rgb(0, 221, 255)'
+                            },
+                            {
+                                offset: 1,
+                                color: 'rgb(77, 119, 255)'
+                            }
+                        ])
+                    },
+                    emphasis: {
+                        focus: 'series'
+                    },
+                    data: data4[0]
+                },
+                {
+                    name: '异常理赔',
+                    type: 'line',
+                    stack: 'Total',
+                    smooth: true,
+                    lineStyle: {
+                        width: 0
+                    },
+                    showSymbol: false,
+                    areaStyle: {
+                        opacity: 0.8,
+                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                            {
+                                offset: 0,
+                                color: 'rgb(255, 0, 135)'
+                            },
+                            {
+                                offset: 1,
+                                color: 'rgb(135, 0, 157)'
+                            }
+                        ])
+                    },
+                    emphasis: {
+                        focus: 'series'
+                    },
+                    data: data4[1]
+                }
+            ]
+        };
+
+        option && myChart.setOption(option);
+    </script>
+{% endblock %}
+
+</body>
+</html>

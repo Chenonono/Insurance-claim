@@ -5,7 +5,7 @@ def get_conn():
         host = '127.0.0.1',
         user = 'root',
         password = 'cjy201',
-        database = 'flask_db02',
+        database = 'flask_db03',
         charset = 'utf8'
     )
 

@@ -13,6 +13,7 @@
             {% include "block/nav.html" %}
             {% block nav %}
             {% endblock %}
+            <input type="hidden" id="error_msg" value='{{ error_msg }}'>
             <div class="row">
                 <div class="col-md-2">
                     <!--左边栏-->
@@ -34,43 +35,23 @@
 </div>
 <!--js 内容-->
 {% block aside_js %}
-    <script>
-        (function () {
-            var oList = document.querySelectorAll('.list h2'),
-                oHide = document.querySelectorAll('.hide1'),
-                oIcon = document.querySelectorAll('.list i'),
-                lastIndex = 0;
-            oHide[0].style.height = '160px';
-            oIcon[0].className = 'on';
-            oList[0].className = 'on';
-            oList[0].isClick = true;
-            for (var i = 0; i < oList.length; i++) {
-                oList[i].index = i;//自定义属性
-                oList[i].initHeight = oHide[i].clientHeight;
-
-                oList[i].onclick = function () {
-                    if (this.isClick) {
-                        oHide[this.index].style.height = '0';
-                        oIcon[this.index].className = '';
-                        oList[this.index].className = '';
-                        oList[this.index].isClick = false;
-                    } else {
-                        oHide[this.index].style.height = '160px';
-                        oIcon[this.index].className = 'on';
-                        oList[this.index].className = 'on';
-                        oList[this.index].isClick = true;
-                        lastIndex = this.index;
-                    }
-                }
-            }
-        })();
-    </script>
 {% endblock %}
 
 {% block banner_js %}
 {% endblock %}
 
 {% block pre_js %}
+{% endblock %}
+
+{% block user_js %}
+    <script>
+        (function () {
+            if (document.getElementById("error_msg").value.length != 0) {
+                alert(document.getElementById("error_msg").value);
+            }
+            ;
+        })();
+    </script>
 {% endblock %}
 
 </body>
