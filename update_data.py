@@ -11,7 +11,7 @@ def sub_review_data(feature, prob, label):
               ',CL_THIRD_PARTY_PAY_AMT,CL_OWNER_PAY_AMT,CL_SELF_CAT_PAY_AMT,COPAY_PCT,TOTAL_RECEIPT_AMT,BEN_TYPE' \
               ',MBR_TYPE,BEN_HEAD,DIAG_CODE,ORG_PRES_AMT_VALUE,PROV_CODE,RCV_DATE,MBR_NO,PROV_LEVEL,KIND_CODE,NO_OF_YR' \
               ',CODES,Probability,Forecast_Status) VALUES (' \
-              + str(int(feature['CL_NO'][i])) + ', "' + feature['MBR_LAST_NAME'][i] + '","' \
+              + str(int(feature['CL_NO'][i])) + ', "' + feature['NAME'][i] + '","' \
               + datetime(*xldate_as_tuple(feature['INCUR_DATE_FROM'][i], 0)).strftime('%Y/%m/%d') + '","' \
               + datetime(*xldate_as_tuple(feature['INCUR_DATE_TO'][i], 0)).strftime('%Y/%m/%d') + '",' \
               + str(feature['SUB_AMT'][i]) + ','+ str(feature['CL_SOCIAL_PAY_AMT'][i]) + ','\

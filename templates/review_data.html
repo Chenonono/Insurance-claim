@@ -75,12 +75,19 @@
                                     <td>{{ data['KIND_CODE'] }}</td>
                                     <td>{{ data['NO_OF_YR'] }}</td>
                                     <td>{{ data['CODES'] }}</td>
+                                    <td>
+                                        {% if data['Forecast_Status'] %}
+                                            <div class="alert alert-info alert-status" role="alert">正常</div>
+                                        {% endif %}
+                                        {% if not data['Forecast_Status'] %}
+                                            <div class="alert alert-warning alert-status" role="alert">异常</div>
+                                        {% endif %}
+                                    </td>
                                     <td>{{ data['Probability'] }}</td>
-                                    <td>{{ data['Forecast_Status'] }}</td>
-                                    <td><a href="/review_data_ac/{{ data['ID'] }}">
+                                    <td><a href="/review_data_ac2/{{ data['ID'] }}">
                                         <button class="btn-sm btn-primary btns">通 过</button>
                                     </a></td>
-                                    <td><a href="/review_data_rj/{{ data['ID'] }}">
+                                    <td><a href="/review_data_rj2/{{ data['ID'] }}">
                                         <button class="btn-sm btn-danger btns">拒 绝</button>
                                     </a></td>
                                 </tr>

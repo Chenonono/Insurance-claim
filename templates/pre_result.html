@@ -21,7 +21,7 @@
                             <tr class="thead">
                                 <th scope="col">编号</th>
                                 <th scope="col">行为预测</th>
-                                <th scope="col">最大概率</th>
+                                <th scope="col">分类概率</th>
                                 <th scope="col">接受理赔</th>
                                 <th scope="col">拒绝理赔</th>
                             </tr>
@@ -39,10 +39,10 @@
                                         {% endif %}
                                     </td>
                                     <td>{{ data['Probability'] }}</td>
-                                    <td><a href="/review_data_ac/{{ data['ID'] }}">
+                                    <td><a href="/review_data_ac1/{{ data['ID'] }}">
                                         <button class="btn-sm btn-primary btns">通 过</button>
                                     </a></td>
-                                    <td><a href="/review_data_rj/{{ data['ID'] }}">
+                                    <td><a href="/review_data_rj1/{{ data['ID'] }}">
                                         <button class="btn-sm btn-danger btns">拒 绝</button>
                                     </a></td>
                                 </tr>

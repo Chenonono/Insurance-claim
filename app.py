@@ -8,6 +8,7 @@ from xlrd2 import xldate_as_tuple
 import json
 import calendar, time, os
 from datetime import datetime
+import copy
 from werkzeug.datastructures import FileStorage
 from flask import Flask, render_template, jsonify, request, redirect, url_for, session, Response
 # 自己写的文件
@@ -112,15 +113,17 @@ def to_excel():
 @app.route('/data_pre', methods=['POST'])
 def data_pre():
     file = request.form.get('file')
-    print(file)
+    #print(file)
     f = open(file, "rb").read()
     data_file = xlrd2.open_workbook(file_contents=f)
     table = data_file.sheet_by_index(0)
     feature = {}
     for col_num in range(0, table.ncols):
         feature[table.col_values(col_num)[0]] = table.col_values(col_num)[1:]
-    print(feature)
-    prob, label = predict.predict(feature)
+    data = copy.deepcopy(feature)
+    feature_ = predict.Characteristics(data)
+    #print(feature_.shape)
+    prob, label = predict.predict(feature_)
     flag = update_data.sub_review_data(feature, prob, label)
     if flag:
         result = '200'
@@ -151,24 +154,44 @@ def review_data():
     return render_template('review_data.html', datas = data_list, html=html)
 
 #接受理赔
-@app.route('/review_data_ac/<int:id>')
-def review_data_ac(id):
+@app.route('/review_data_ac2/<int:id>')
+def review_data_ac2(id):
     data = get_data.get_onereview(id)
-    print(data)
+    #print(data)
     flag = update_data.del_onereview(id)
     if flag:
         update_data.sub_onereviewed(data[0], label=1)
     return redirect('/review_data')
 
 #拒绝理赔
-@app.route('/review_data_rj/<int:id>')
-def review_data_rj(id):
+@app.route('/review_data_rj2/<int:id>')
+def review_data_rj2(id):
     data = get_data.get_onereview(id)
     #print(data[0])
     flag = update_data.del_onereview(id)
     if flag:
         update_data.sub_onereviewed(data[0], label=0)
     return redirect('/review_data')
+
+#接受理赔
+@app.route('/review_data_ac1/<int:id>')
+def review_data_ac1(id):
+    data = get_data.get_onereview(id)
+    #print(data)
+    flag = update_data.del_onereview(id)
+    if flag:
+        update_data.sub_onereviewed(data[0], label=1)
+    return redirect('/show_result')
+
+#拒绝理赔
+@app.route('/review_data_rj1/<int:id>')
+def review_data_rj1(id):
+    data = get_data.get_onereview(id)
+    #print(data[0])
+    flag = update_data.del_onereview(id)
+    if flag:
+        update_data.sub_onereviewed(data[0], label=0)
+    return redirect('/show_result')
 
 #删除已审核数据
 @app.route('/reviewed_data_del/<int:id>')
